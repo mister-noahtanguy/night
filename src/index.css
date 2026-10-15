@@ -1,0 +1,183 @@
+@import 'tailwindcss';
+
+/* ============ DESIGN TOKENS ============ */
+@theme {
+  --font-display: 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+
+  /* Encre et surfaces */
+  --color-ink: #16123a;
+  --color-ink-2: #4c4772;
+  --color-muted: #8a85a8;
+  --color-line: #e8e3f5;
+  --color-canvas: #f4f1fb;
+  --color-surface: #ffffff;
+  --color-night: #1b1450;
+  --color-night-2: #2a1f78;
+
+  /* Couleurs de marque */
+  --color-violet: #6d3aff;
+  --color-blue: #2f6bff;
+  --color-pink: #ff4fa3;
+  --color-turquoise: #12c9b5;
+  --color-orange: #ff8a2a;
+  --color-yellow: #ffc23c;
+  --color-success: #19b36b;
+
+  --animate-shimmer: shimmer 2.6s linear infinite;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  --animate-scan: scan 2.2s ease-in-out infinite;
+
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(250%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes scan {
+    0% { top: 4%; }
+    50% { top: 92%; }
+    100% { top: 4%; }
+  }
+}
+
+/* ============ BASE ============ */
+:root {
+  color-scheme: light;
+  --tabbar-h: 84px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  background: #120c3a;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ============ UTILITIES ============ */
+@utility card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 1px 0 rgba(22, 18, 58, 0.03), 0 10px 30px -18px rgba(54, 30, 140, 0.35);
+}
+
+@utility card-night {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(47, 107, 255, 0.45), transparent 55%),
+    radial-gradient(90% 80% at 0% 100%, rgba(255, 79, 163, 0.28), transparent 60%),
+    linear-gradient(160deg, #2a1f78, #16103f);
+  color: #fff;
+  box-shadow: 0 18px 40px -20px rgba(42, 31, 120, 0.8);
+}
+
+@utility glass-dark {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@utility bg-brand {
+  background: linear-gradient(120deg, #6d3aff 0%, #2f6bff 100%);
+}
+
+@utility bg-hot {
+  background: linear-gradient(120deg, #ff4fa3 0%, #ff8a2a 100%);
+}
+
+@utility text-brand {
+  background: linear-gradient(90deg, #6d3aff, #2f6bff 55%, #12c9b5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fond de l'app : clair, avec des halos colorés discrets */
+.app-bg {
+  background:
+    radial-gradient(70% 40% at 0% 0%, rgba(109, 58, 255, 0.16), transparent 70%),
+    radial-gradient(60% 35% at 100% 8%, rgba(18, 201, 181, 0.14), transparent 70%),
+    radial-gradient(70% 40% at 100% 100%, rgba(255, 79, 163, 0.1), transparent 70%),
+    var(--color-canvas);
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cadre téléphone sur grand écran */
+.phone {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 520px) and (min-height: 700px) {
+  .stage {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    background:
+      radial-gradient(50% 50% at 30% 30%, rgba(109, 58, 255, 0.45), transparent 70%),
+      radial-gradient(40% 40% at 75% 75%, rgba(255, 79, 163, 0.3), transparent 70%),
+      #120c3a;
+  }
+  .phone {
+    width: 390px;
+    height: min(844px, calc(100dvh - 48px));
+    border-radius: 48px;
+    box-shadow:
+      0 0 0 10px #0d0830,
+      0 0 0 11px rgba(255, 255, 255, 0.12),
+      0 40px 120px rgba(20, 10, 70, 0.6);
+  }
+}
